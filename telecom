@@ -1,0 +1,5 @@
+class Telecom:
+    def __init__(self,system,value,prefix):
+        self.system = system
+        self.value = value
+       
