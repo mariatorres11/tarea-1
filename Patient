@@ -1,0 +1,64 @@
+import dateparser
+import json
+from HumanName import HumanName
+from Identifier import Identifier
+
+class Patient:
+    def __init__(self,inputDict):
+        self.name = HumanName(familyName=inputDict["name"]["familyName"],givenName=inputDict["name"]["givenName"],prefix=inputDict["name"]["prefix"])
+        identifiers = list()
+        for ident in inputDict["identifier"]:
+            auxIdentifier = Identifier(type=ident["type"],value=ident["value"])
+            identifiers.append(auxIdentifier)
+        self.identifiers = identifiers
+        self.active = inputDict["active"]
+        self.telecoms = telecoms
+        if inputDict["gender"] != 'M' and inputDict["gender"] != 'F':
+            print("Warning! Solo F y M")
+            self.gender = None    
+        else:
+            self.gender = inputDict["gender"]
+        self.birthDate = dateparser.parse(birthDate) 
+    
+    def cambiarSexo(self):
+        if self.gender == 'M':
+            self.gender = 'F'
+        elif self.gender == 'F':
+            self.gender = 'M'
+    
+    def __str__(self):
+        return f"Nombre: {self.name}, fecha de nacimiento {self.birthDate}."
+
+mariaJson = """{
+
+	"identifier":[
+		{
+			"type":"CC",
+			"value":"1001218488"
+		},
+		{
+			"type":"PP",
+			"value":"AQ23"
+		}
+	],
+	"active":true,
+	"name":{
+		"familyName":"DTorres Abril",
+		"givenName":"Maria Fernanda",
+		"prefix":null
+	},
+	"telecom":[
+		{
+			"system":"phone",
+			"value":"3103181223",
+			"use":"home"
+		},
+		{
+			"system":"phone",
+			"value":"6014765826",
+			"use":"work"
+		}
+	],
+	"gender":"F",
+	"birthDate":"2003-04-11"
+}"""
